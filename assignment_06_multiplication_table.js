@@ -59,4 +59,77 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require("readline-sync");
 
+// -----------------------------------------------------------------------------
+// Helper: validate that a value is a positive integer
+// -----------------------------------------------------------------------------
+function isPositiveInteger(value) {
+  const num = Number(value);
+  return Number.isInteger(num) && num > 0;
+}
+
+// -----------------------------------------------------------------------------
+// PART A — Single Table
+// -----------------------------------------------------------------------------
+// Prints the multiplication table for a single number, from 1 to 12.
+function printTable(number) {
+  console.log(`Multiplication Table for ${number}:`);
+  for (let i = 1; i <= 12; i++) {
+    const result = number * i;
+    // Pad the multiplier and result so columns line up neatly.
+    const multiplier = String(i).padEnd(2);
+    console.log(`${number}  x  ${multiplier} =  ${result}`);
+  }
+}
+
+function runPartA() {
+  const input = readlineSync.question("Enter a number: ");
+
+  if (!isPositiveInteger(input)) {
+    console.log("Error: please enter a positive integer.");
+    return;
+  }
+
+  const number = Number(input);
+  printTable(number);
+}
+
+// -----------------------------------------------------------------------------
+// PART B — Bonus: Tables from 1 to N
+// -----------------------------------------------------------------------------
+// Prints multiplication tables for every number from 1 to N,
+// separated by a line of dashes.
+function printTablesUpTo(n) {
+  for (let num = 1; num <= n; num++) {
+    printTable(num);
+    if (num < n) {
+      console.log("---------------------------");
+    }
+  }
+}
+
+function runPartB() {
+  const input = readlineSync.question("Enter a number N: ");
+
+  if (!isPositiveInteger(input)) {
+    console.log("Error: please enter a positive integer.");
+    return;
+  }
+
+  const n = Number(input);
+  printTablesUpTo(n);
+}
+
+// -----------------------------------------------------------------------------
+// MAIN — run Part A, then optionally Part B
+// -----------------------------------------------------------------------------
+function main() {
+  console.log("=== Part A: Single Table ===");
+  runPartA();
+
+  console.log("\n=== Part B: Tables from 1 to N ===");
+  runPartB();
+}
+
+main();

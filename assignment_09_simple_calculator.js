@@ -74,4 +74,156 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
 
+// -----------------------------------------------------------------------------
+// ARITHMETIC FUNCTIONS — each operation is its own function
+// -----------------------------------------------------------------------------
+
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  if (b === 0) {
+    throw new Error('Cannot divide by zero.');
+  }
+  return a / b;
+}
+
+function modulus(a, b) {
+  if (b === 0) {
+    throw new Error('Cannot divide by zero.');
+  }
+  return a % b;
+}
+
+function exponentiate(a, b) {
+  return a ** b;
+}
+
+// -----------------------------------------------------------------------------
+// HELPER: print the menu
+// -----------------------------------------------------------------------------
+
+function printMenu() {
+  console.log('============================');
+  console.log('     SIMPLE CALCULATOR');
+  console.log('============================');
+  console.log('1. Addition');
+  console.log('2. Subtraction');
+  console.log('3. Multiplication');
+  console.log('4. Division');
+  console.log('5. Modulus');
+  console.log('6. Exponentiation');
+  console.log('7. Quit');
+}
+
+// -----------------------------------------------------------------------------
+// HELPER: get two valid numbers from the user
+// Returns null if input is invalid (not a number)
+// -----------------------------------------------------------------------------
+
+function getNumbers() {
+  const firstInput = readlineSync.question('Enter first number : ');
+  const secondInput = readlineSync.question('Enter second number: ');
+
+  const first = parseFloat(firstInput);
+  const second = parseFloat(secondInput);
+
+  if (isNaN(first) || isNaN(second)) {
+    console.log('Error: Please enter valid numbers.');
+    return null;
+  }
+
+  return { first, second };
+}
+
+// -----------------------------------------------------------------------------
+// MAIN PROGRAM LOOP
+// -----------------------------------------------------------------------------
+
+function main() {
+  const symbols = {
+    '1': '+',
+    '2': '-',
+    '3': '*',
+    '4': '/',
+    '5': '%',
+    '6': '**',
+  };
+
+  let running = true;
+
+  while (running) {
+    printMenu();
+    const choice = readlineSync.question('Select an operation (1-7): ').trim();
+
+    switch (choice) {
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6': {
+        const numbers = getNumbers();
+        if (numbers === null) {
+          break;
+        }
+        const { first, second } = numbers;
+        const symbol = symbols[choice];
+
+        try {
+          let result;
+
+          switch (choice) {
+            case '1':
+              result = add(first, second);
+              break;
+            case '2':
+              result = subtract(first, second);
+              break;
+            case '3':
+              result = multiply(first, second);
+              break;
+            case '4':
+              result = divide(first, second);
+              break;
+            case '5':
+              result = modulus(first, second);
+              break;
+            case '6':
+              result = exponentiate(first, second);
+              break;
+          }
+
+          console.log(`Result: ${first} ${symbol} ${second} = ${result.toFixed(2)}`);
+        } catch (err) {
+          console.log(`Error: ${err.message}`);
+        }
+        break;
+      }
+
+      case '7':
+        console.log('Goodbye!');
+        running = false;
+        break;
+
+      default:
+        console.log('Error: Invalid choice. Please select a number between 1 and 7.');
+        break;
+    }
+
+    console.log(''); // blank line for readability between rounds
+  }
+}
+
+main();

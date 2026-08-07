@@ -54,4 +54,71 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require("readline-sync");
 
+// =============================================================================
+// PART A — Print the First N Terms
+// =============================================================================
+function printFibonacciTerms(n) {
+  // Validate that n is a positive integer
+  if (!Number.isInteger(n) || n <= 0) {
+    console.log("Error: N must be a positive integer.");
+    return;
+  }
+
+  const sequence = [];
+  let a = 0;
+  let b = 1;
+
+  for (let i = 0; i < n; i++) {
+    sequence.push(a);
+    const next = a + b;
+    a = b;
+    b = next;
+  }
+
+  console.log("Fibonacci sequence: " + sequence.join(" "));
+}
+
+// =============================================================================
+// PART B — Check if a Number Belongs to the Sequence
+// =============================================================================
+function isFibonacciNumber(num) {
+  // Negative numbers are never Fibonacci numbers
+  if (num < 0) {
+    return false;
+  }
+
+  let a = 0;
+  let b = 1;
+
+  // Walk the sequence with a loop until we reach or pass num
+  while (a < num) {
+    const next = a + b;
+    a = b;
+    b = next;
+  }
+
+  return a === num;
+}
+
+// =============================================================================
+// MAIN PROGRAM
+// =============================================================================
+
+// --- Part A ---
+const nInput = readlineSync.question("How many terms? ");
+const n = Number(nInput);
+printFibonacciTerms(n);
+
+// --- Part B ---
+const numInput = readlineSync.question("Enter a number to check: ");
+const num = Number(numInput);
+
+if (!Number.isInteger(num)) {
+  console.log("Error: Please enter a valid integer.");
+} else if (isFibonacciNumber(num)) {
+  console.log(`${num} is a Fibonacci number.`);
+} else {
+  console.log(`${num} is NOT a Fibonacci number.`);
+}

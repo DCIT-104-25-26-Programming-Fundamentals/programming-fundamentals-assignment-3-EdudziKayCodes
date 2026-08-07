@@ -44,3 +44,91 @@
 // =============================================================================
 
 
+const readlineSync = require('readline-sync');
+
+// -----------------------------------------------------------------------------
+// FUNCTION: calculateSum
+// Adds up every value in the array using a loop.
+// -----------------------------------------------------------------------------
+function calculateSum(numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    sum += numbers[i];
+  }
+  return sum;
+}
+
+// -----------------------------------------------------------------------------
+// FUNCTION: calculateAverage
+// Uses calculateSum, then divides by the count of numbers.
+// -----------------------------------------------------------------------------
+function calculateAverage(numbers) {
+  const sum = calculateSum(numbers);
+  return sum / numbers.length;
+}
+
+// -----------------------------------------------------------------------------
+// FUNCTION: findMaximum
+// Walks through the array, keeping track of the largest value seen so far.
+// -----------------------------------------------------------------------------
+function findMaximum(numbers) {
+  let max = numbers[0];
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] > max) {
+      max = numbers[i];
+    }
+  }
+  return max;
+}
+
+// -----------------------------------------------------------------------------
+// FUNCTION: findMinimum
+// Walks through the array, keeping track of the smallest value seen so far.
+// -----------------------------------------------------------------------------
+function findMinimum(numbers) {
+  let min = numbers[0];
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] < min) {
+      min = numbers[i];
+    }
+  }
+  return min;
+}
+
+// -----------------------------------------------------------------------------
+// MAIN PROGRAM
+// -----------------------------------------------------------------------------
+function main() {
+  const n = parseInt(readlineSync.question('How many numbers? '), 10);
+
+  // Validate N: must be a positive integer
+  if (isNaN(n) || n <= 0) {
+    console.log('Error: please enter a positive integer for how many numbers to enter.');
+    return;
+  }
+
+  const numbers = [];
+  for (let i = 0; i < n; i++) {
+    const value = parseFloat(readlineSync.question(`Enter number ${i + 1}: `));
+
+    if (isNaN(value)) {
+      console.log('Error: please enter a valid number.');
+      return;
+    }
+
+    numbers.push(value);
+  }
+
+  const sum = calculateSum(numbers);
+  const average = calculateAverage(numbers);
+  const max = findMaximum(numbers);
+  const min = findMinimum(numbers);
+
+  console.log('\nResults:');
+  console.log(`Sum:     ${sum}`);
+  console.log(`Average: ${average}`);
+  console.log(`Maximum: ${max}`);
+  console.log(`Minimum: ${min}`);
+}
+
+main();
